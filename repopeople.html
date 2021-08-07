@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GitHub Users</title>
+    <style>
+        body{
+            width: 100%;
+        }
+        #grab {
+            font-size: 15px;
+            border-radius: 3px;
+            transition-duration: 0.4s;
+            }
+
+        #grab:hover {
+            background-color: grey;
+            color: white;
+            }
+        #button{
+            position: center;
+        }
+
+        .card {
+            margin-left: 20%;
+            display: flex;
+            justify-content: flex-start;
+            align-content: center;
+            flex-wrap: wrap;
+
+            background: rgba(248, 238, 238, 0.877);
+            width: 700px;
+            min-width: 650px;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+            }
+
+    .card>img {
+            margin: auto 0;
+            margin-right: 0.5rem;
+            border-radius: 0.5rem;
+            }
+
+    .card>ul {
+            list-style: none;
+            font-size: 1.2rem;
+            color: rgb(17, 17, 17)
+            }
+    </style>
+
+</head>
+<body>
+    <button id="grab">Load Github Users</button>
+    <h1>Github Users</h1>
+    <section id="show"></section>
+
+    <script>
+        document.getElementById('grab').addEventListener('click', loadm);
+
+        function loadm()
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://api.github.com/users');
+            xhr.onload = function()
+            {
+                if(xhr.status == 200)
+                {
+
+                        var people = JSON.parse(xhr.responseText);
+                        var output= ' ';
+                        for (let i = 0; i < people.length; i++) {
+                        output += `<div class="card">
+                        <img src="${people[i].avatar_url}" width="200px" height="200px">
+                        <ul>
+                        <li>ID: ${people[i].id}</li>
+                        <li>Login: ${people[i].login}</li>
+                        <li>Type: ${people[i].type}</li>
+                        <li>Repos: <a href="${people[i].repos_url}" target="_blank">${people[i].repos_url}</a></li>
+                        <li>Url: <a href="${people[i].url}" target="_blank">${people[i].url}</a></li>
+                        </ul>
+                        </div>`;
+                        }
+
+                        document.getElementById('show').innerHTML = output;
+                       
+
+                }
+            }
+            xhr.send();
+        }
+    </script>
+    <div>
+
+    </div>
+    
+</body>
+</html>
